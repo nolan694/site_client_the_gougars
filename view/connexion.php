@@ -1,3 +1,24 @@
+<?php
+   $connexion = new PDO('mysql:host=localhost;dbname=client_cougars', 'root', '');
+   if (isset($_POST['valider'])) {
+           if ($_POST['email'] != '' AND $_POST['password'] != '') {
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                echo $email ,$password;
+                $req = $connexion->prepare('SELECT * FROM utilisateurs WHERE nom = ? AND mot_de_passe = ?');
+                $req->execute(array($email, $password));
+                $cpt = $req->rowCount();
+                if ($cpt == 1) {
+                        echo 'ok';
+                        header("Location: Menu.php");
+                } else {
+                        //echo 'Mauvais mail ou mot de passe !';
+                    $erreur = "Mauvais mail ou mot de passe !";
+                }
+           }
+       }
+   
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -23,12 +44,13 @@
  
         <!-- Formulaire de Connexion -->
 <div id="login-form" class="space-y-4">
-<form class="space-y-4">
+<form class="space-y-4" method="POST">
 <div>
 <label for="email-login" class="block text-gray-700 font-medium mb-2">Adresse Email</label>
 <input 
-                        type="text" 
-                        id="email-login" 
+                        type="text"
+                        name="email" 
+                        id="email" 
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
                         placeholder="votre.email@exemple.com" 
                         required
@@ -37,8 +59,9 @@
 <div>
 <label for="password-login" class="block text-gray-700 font-medium mb-2">Mot de Passe</label>
 <input 
+                        name="password"
                         type="password" 
-                        id="password-login" 
+                        id="password" 
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
                         placeholder="••••••••" 
                         required
@@ -48,6 +71,8 @@
 <a href="#" class="text-sm text-blue-600 hover:underline">Mot de passe oublié ?</a>
 </div>
 <button 
+                    id="valider"  
+                    name="valider"     
                     type="submit" 
                     class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
 >
