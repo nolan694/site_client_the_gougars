@@ -9,13 +9,43 @@
                 $req->execute(array($email, $password));
                 $cpt = $req->rowCount();
                 if ($cpt == 1) {
-                        echo 'ok';
-                        header("Location: Menu.php");
+                        if ($_POST['email'] == 'Admin'){
+                                header("Location: admin.php");
+                        } else {
+                                header("Location: Menu.php");
+                        }
                 } else {
                         //echo 'Mauvais mail ou mot de passe !';
                     $erreur = "Mauvais mail ou mot de passe !";
                 }
            }
+       }
+       session_start();
+       if (isset($_POST['submit_register'])){
+                  if ($_POST['prenom'] != '' AND $_POST['nom'] != '' AND $_POST['password'] != '' AND $_POST['password2'] != '') {
+                        if ($_POST['password'] == $_POST['password2']) {
+                                $prenom = $_POST['prenom'];
+                                $nom = $_POST['nom'];
+                                $password = $_POST['password'];
+                                $insertUser = $connexion->prepare('INSERT INTO utilisateurs(nom, prenom, mot_de_passe) VALUES(?, ?, ?)');
+                                $insertUser->execute(array($nom, $prenom, $password));
+                                $recupUser = $connexion->prepare('SELECT * FROM utilisateurs WHERE nom = ? AND prenom = ? AND mot_de_passe = ?');
+                                $recupUser->execute(array($nom, $prenom, $password));
+                                if ($recupUser->rowCount() == 1) {
+                                        header("Location: Menu.php");
+                                } else {
+                                        $erreur = "Erreur lors de l'inscription !";
+                                }
+
+                        } else {
+                                $erreur = "Les mots de passe ne correspondent pas !";
+                        }
+                        
+
+                  } else {
+                          $erreur = "Veuillez remplir tous les champs !";
+                  }
+
        }
    
 ?>
@@ -91,13 +121,14 @@
  
         <!-- Formulaire d'Inscription -->
 <div id="register-form" class="space-y-4 hidden">
-<form class="space-y-4">
+<form class="space-y-4" method="POST" action="">
 <div class="flex gap-4">
 <div class="w-1/2">
 <label for="firstname" class="block text-gray-700 font-medium mb-2">Prénom</label>
 <input 
-                            type="text" 
-                            id="firstname" 
+                            type="text"
+                            name="prenom" 
+                            id="prenom" 
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
                             placeholder="Votre prénom" 
                             required
@@ -106,29 +137,22 @@
 <div class="w-1/2">
 <label for="lastname" class="block text-gray-700 font-medium mb-2">Nom</label>
 <input 
-                            type="text" 
-                            id="lastname" 
+                            type="text"
+                            name="nom" 
+                            id="nom" 
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
                             placeholder="Votre nom" 
                             required
 >
 </div>
 </div>
-<div>
-<label for="email-register" class="block text-gray-700 font-medium mb-2">Adresse Email</label>
-<input 
-                        type="email" 
-                        id="email-register" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                        placeholder="votre.email@exemple.com" 
-                        required
->
-</div>
+
 <div>
 <label for="password-register" class="block text-gray-700 font-medium mb-2">Mot de Passe</label>
 <input 
                         type="password" 
-                        id="password-register" 
+                        id="password" 
+                        name="password"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
                         placeholder="••••••••" 
                         required
@@ -138,7 +162,8 @@
 <label for="confirm-password" class="block text-gray-700 font-medium mb-2">Confirmez le Mot de Passe</label>
 <input 
                         type="password" 
-                        id="confirm-password" 
+                        id="password2"
+                        name="password2" 
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
                         placeholder="••••••••" 
                         required
@@ -147,6 +172,8 @@
 <button 
                     type="submit" 
                     class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition duration-300"
+                    id="submit_register"
+                    name="submit_register"
 >
                     Créer un Compte
 </button>

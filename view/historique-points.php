@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transport Score - Historique des Points</title>
+
     <style>
         :root {
             --primary-color: #3B4371;
@@ -179,7 +174,30 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <?php
+// Connexion à la base de données
+try {
+    $connexion = new PDO('mysql:host=localhost;dbname=client_cougars;charset=utf8', 'root', '');
+    $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
+
+// Récupérer les classes
+$classesQuery = $connexion->prepare("SELECT * FROM classes");
+$classesQuery->execute();
+$classes = $classesQuery->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Score - Historique des Points</title>
+    <style>
+        /* Votre style CSS ici */
+    </style>
 </head>
 <body>
     <header class="header">
@@ -195,66 +213,54 @@
 
         <h2 style="margin-bottom: 2rem; color: var(--primary-color);">Historique des Points</h2>
 
-        <div class="filters">
-            <select id="filter-type">
-                <option value="">Type d'attribution</option>
-                <option value="eleve">Élève</option>
-                <option value="classe">Classe</option>
-            </select>
+        <?php foreach ($classes as $classe): ?>
+            <h2>Classe : <?= htmlspecialchars($classe['nom_classe']) ?></h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Cible</th>
+                            <th>Points</th>
+                            <th>Motif</th>
+                            <th>Attribué par</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Récupérer les élèves de cette classe
+                        $elevesQuery = $connexion->prepare("SELECT * FROM eleves WHERE classe_id = ?");
+                        $elevesQuery->execute([$classe['id']]);
+                        $eleves = $elevesQuery->fetchAll(PDO::FETCH_ASSOC);
 
-            <select id="filter-target">
-                <option value="">Cible</option>
-                <option value="tous">Tous</option>
-            </select>
+                        $utilisateursQuery = $connexion->prepare(
+                            "SELECT utilisateurs.prenom, utilisateurs.nom 
+                            FROM eleves
+                            JOIN utilisateurs ON eleves.utilisateur_id = utilisateurs.id
+                            WHERE eleves.classe_id = ?"
+                        );
+                        $utilisateursQuery->execute([$classe['id']]);
+                        $utilisateurs = $utilisateursQuery->fetchAll(PDO::FETCH_ASSOC);
+                        
 
-            <input type="date" id="filter-date-start" placeholder="Date début">
-            <input type="date" id="filter-date-end" placeholder="Date fin">
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Cible</th>
-                        <th>Points</th>
-                        <th>Motif</th>
-                        <th>Attribué par</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>12/12/2024</td>
-                        <td>Élève</td>
-                        <td>Jean Dupont</td>
-                        <td>+10</td>
-                        <td>Participation active</td>
-                        <td>M. Martin</td>
-                        <td><span class="status-badge success">Validé</span></td>
-                    </tr>
-                    <tr>
-                        <td>11/12/2024</td>
-                        <td>Classe</td>
-                        <td>6e A</td>
-                        <td>+20</td>
-                        <td>Comportement exemplaire</td>
-                        <td>Mme Bernard</td>
-                        <td><span class="status-badge warning">En attente</span></td>
-                    </tr>
-                    <!-- Ajoutez plus de lignes selon vos besoins -->
-                </tbody>
-            </table>
-        </div>
-
-        <div class="pagination">
-            <button><i class="fas fa-chevron-left"></i></button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button><i class="fas fa-chevron-right"></i></button>
-        </div>
+                        // Afficher les élèves
+                        foreach ($eleves as $eleve): ?>
+                            <tr>
+                                <td>12/12/2024</td>
+                                <td>Élève</td>
+                                <td><?= htmlspecialchars($utilisateurs['prenom']) . ' ' . htmlspecialchars($utilisateurs['nom']) ?></td>
+                                <td>+10</td>
+                                <td>Participation active</td>
+                                <td>M. Martin</td>
+                                <td><span class="status-badge success">Validé</span></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endforeach; ?>
     </main>
 
     <script>
