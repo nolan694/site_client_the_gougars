@@ -131,31 +131,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    
     <header class="header">
-        <span class="admin-badge">Administration</span>
+        <h1>Menu</h1>
     </header>
 
     <main class="menu-container">
-        
-
-        <div class="menu-card" onclick="location.href='classement_prof.php'">
+        <div class="menu-card" onclick="location.href='classement_eleve.php'">
             <i class="fas fa-trophy"></i>
             <h2>Classement</h2>
-            <p>Classement global</p>
+            <p>Classement global et par classe</p>
         </div>
 
-        <div class="menu-card" onclick="location.href='historique-points_prof.php'">
-            <i class="fas fa-users"></i>
-            <h2>Points</h2>
-            <p>Historique de chaque classe</p>
+        <div class="menu-card" onclick="location.href='historique_eleve.php'">
+            <i class="fas fa-group"></i>
+            <h2>Historique points</h2>
+            <p>historique de chaque classes</p>
         </div>
-
-        <div class="menu-card" onclick="location.href='fiche_appel.php'">
-        <i class="fas fa-layer-group"></i>
-            <h2>Appel</h2>
-            <p>Fiche d'appel de la classe</p>
-    </div>
     </main>
 </body>
 </html>
