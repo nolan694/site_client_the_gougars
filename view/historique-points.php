@@ -1,5 +1,5 @@
 
-    <style>
+<style>
         :root {
             --primary-color: #3B4371;
             --secondary-color: #F3F4F6;
@@ -221,11 +221,8 @@ $classes = $classesQuery->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <th>Date</th>
                             <th>Type</th>
-                            <th>Cible</th>
+                            <th>Nom</th>
                             <th>Points</th>
-                            <th>Motif</th>
-                            <th>Attribué par</th>
-                            <th>Statut</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -235,8 +232,9 @@ $classes = $classesQuery->fetchAll(PDO::FETCH_ASSOC);
                         $elevesQuery->execute([$classe['id']]);
                         $eleves = $elevesQuery->fetchAll(PDO::FETCH_ASSOC);
 
+
                         $utilisateursQuery = $connexion->prepare(
-                            "SELECT utilisateurs.prenom, utilisateurs.nom 
+                            "SELECT utilisateurs.prenom, utilisateurs.nom, utilisateurs.date_inscription ,eleves.points, utilisateurs.id
                             FROM eleves
                             JOIN utilisateurs ON eleves.utilisateur_id = utilisateurs.id
                             WHERE eleves.classe_id = ?"
@@ -246,15 +244,12 @@ $classes = $classesQuery->fetchAll(PDO::FETCH_ASSOC);
                         
 
                         // Afficher les élèves
-                        foreach ($eleves as $eleve): ?>
+                        foreach ($utilisateurs as $utilisateur): ?>
                             <tr>
-                                <td>12/12/2024</td>
+                                <td><?= date('d/m/Y', strtotime($utilisateur['date_inscription'])) ?></td>
                                 <td>Élève</td>
-                                <td><?= htmlspecialchars($utilisateurs['prenom']) . ' ' . htmlspecialchars($utilisateurs['nom']) ?></td>
-                                <td>+10</td>
-                                <td>Participation active</td>
-                                <td>M. Martin</td>
-                                <td><span class="status-badge success">Validé</span></td>
+                                <td><?= htmlspecialchars($utilisateur['prenom']) . ' ' . htmlspecialchars($utilisateur['nom']) ?></td>
+                                <td><?= htmlspecialchars($utilisateur['points']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
