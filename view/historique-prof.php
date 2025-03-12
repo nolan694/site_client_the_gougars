@@ -1,5 +1,5 @@
 
-    <style>
+<style>
         :root {
             --primary-color: #3B4371;
             --secondary-color: #F3F4F6;
@@ -201,11 +201,12 @@ $classes = $classesQuery->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <header class="header">
+        <h1>Transport Score</h1>
         <span class="admin-badge">Administration</span>
     </header>
 
     <main class="container">
-        <a href="admin.php" class="back-button">
+        <a href="Menu.php" class="back-button">
             <i class="fas fa-arrow-left"></i>
             Retour au tableau de bord
         </a>

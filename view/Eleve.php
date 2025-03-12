@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> - Administration</title>
+    <title>Transport Score - Tableau de bord</title>
     <style>
         :root {
-            
             --primary-color: #3B4371;
             --secondary-color: #F3F4F6;
             --accent-color: #4A55A2;
-            --danger-color: #DC2626;
-            --success-color: #059669;
             --text-color: #1F2937;
             --bg-color: #FFFFFF;
             --card-hover: #F9FAFB;
@@ -38,32 +35,22 @@
             top: 0;
             z-index: 100;
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .header h1 {
             color: var(--primary-color);
             font-size: 1.5rem;
+            text-align: center;
             font-weight: 600;
             letter-spacing: -0.025em;
         }
 
-        .admin-badge {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.875rem;
-        }
-
         .menu-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 100px auto 0;
             padding: 2rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
         }
 
@@ -75,8 +62,6 @@
             transition: all 0.2s ease;
             border: 1px solid rgba(0,0,0,0.05);
             cursor: pointer;
-            margin-top: 100px;
-            z-index: 10px;
         }
 
         .menu-card:hover {
@@ -85,23 +70,11 @@
             border-color: rgba(74, 85, 162, 0.2);
         }
 
-        .menu-card.danger:hover {
-            border-color: rgba(220, 38, 38, 0.2);
-        }
-
         .menu-card i {
             font-size: 2rem;
             color: var(--accent-color);
             margin-bottom: 1rem;
             opacity: 0.9;
-        }
-
-        .menu-card.danger i {
-            color: var(--danger-color);
-        }
-
-        .menu-card.success i {
-            color: var(--success-color);
         }
 
         .menu-card h2 {
@@ -115,15 +88,6 @@
             color: #6B7280;
             font-size: 0.9rem;
             line-height: 1.5;
-        }
-
-        .section-title {
-            grid-column: 1 / -1;
-            color: var(--primary-color);
-            font-size: 1.25rem;
-            margin-top: 2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--secondary-color);
         }
 
         @media (max-width: 768px) {
@@ -146,8 +110,6 @@
                 --primary-color: #E5E7EB;
                 --secondary-color: #1F2937;
                 --accent-color: #818CF8;
-                --danger-color: #EF4444;
-                --success-color: #10B981;
                 --text-color: #F9FAFB;
                 --bg-color: #111827;
                 --card-hover: #1F2937;
@@ -161,23 +123,35 @@
                 border-color: rgba(129, 140, 248, 0.2);
             }
 
-                        .menu-card p {
-                            color: #9CA3AF;
-                        }
-                    }
-                </style>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-            </head>
-            <body>
-                <header class="header">
-                    <span class="admin-badge">Administration</span>
-                </header>
-                <main>
-                    <div class="menu-card" onclick="location.href='historique-points.php'">
-                        <i class="fas fa-history"></i>
-                        <h2>Historique des Points</h2>
-                        <p>Consulter l'historique des attributions</p>
-                    </div>
-                </main>
-            </body>
-            </html>
+            .menu-card p {
+                color: #9CA3AF;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Menu</h1>
+    </header>
+
+    <main class="menu-container">
+        <div class="menu-card" onclick="location.href='classement.php'">
+            <i class="fas fa-trophy"></i>
+            <h2>Classement</h2>
+            <p>Classement global et par classe</p>
+        </div>
+
+        <div class="menu-card" onclick="location.href='historique-elv.php'">
+            <i class="fas fa-group"></i>
+            <h2>Historique points</h2>
+            <p>historique de chaque classes</p>
+        </div>
+        <div class="menu-card" onclick="location.href='points.php'">
+        <i class="fas fa-layer-users"></i>
+            <h2>Mes points</h2>
+            <p>Points de l'éleve</p>
+    </div>
+    </main>
+</body>
+</html>
