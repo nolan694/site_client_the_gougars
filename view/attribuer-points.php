@@ -136,7 +136,7 @@
     </header>
 
     <main class="container">
-        <a href="admin.php" class="back-button">
+        <a href="admin.html" class="back-button">
             <i class="fas fa-arrow-left"></i>
             Retour au tableau de bord
         </a>

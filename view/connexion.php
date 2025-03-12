@@ -1,45 +1,25 @@
 <?php
    $connexion = new PDO('mysql:host=localhost;dbname=client_cougars', 'root', '');
-
-   // Vérification de la soumission du formulaire
    if (isset($_POST['valider'])) {
-       if ($_POST['email'] != '' AND $_POST['password'] != '') {
-           // Récupération des données POST
-           $email = $_POST['email'];
-           $password = $_POST['password'];
-   
-           // Préparation de la requête pour récupérer l'utilisateur
-           $req = $connexion->prepare('SELECT * FROM utilisateurs WHERE nom = ? AND mot_de_passe = ?');
-           $req->execute(array($email, $password));
-           
-           // Comptage des résultats
-           $cpt = $req->rowCount();
-           
-           if ($cpt == 1) {
-               // Récupérer les informations de l'utilisateur
-               $utilisateur = $req->fetch(PDO::FETCH_ASSOC);
-               
-               // Vérifier le rôle de l'utilisateur
-               $role = $utilisateur['role'];
-   
-               // Redirection en fonction du rôle
-               if ($role == 'admin') {
-                   header("Location: admin.php");
-               } elseif ($role == 'prof') {
-                   header("Location: Menu.php");
-               } elseif ($role == 'eleve') {
-                   header("Location: Eleve.php");
-               } else {
-                   $erreur = "Rôle non défini.";
-               }
-           } else {
-               // Si les identifiants sont incorrects
-               $erreur = "Mauvais email ou mot de passe !";
+           if ($_POST['email'] != '' AND $_POST['password'] != '') {
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                echo $email ,$password;
+                $req = $connexion->prepare('SELECT * FROM utilisateurs WHERE nom = ? AND mot_de_passe = ?');
+                $req->execute(array($email, $password));
+                $cpt = $req->rowCount();
+                if ($cpt == 1) {
+                        if ($_POST['email'] == 'Admin'){
+                                header("Location: admin.php");
+                        } else {
+                                header("Location: Menu.php");
+                        }
+                } else {
+                        //echo 'Mauvais mail ou mot de passe !';
+                    $erreur = "Mauvais mail ou mot de passe !";
+                }
            }
-       } else {
-           $erreur = "Veuillez remplir tous les champs.";
        }
-   }
        session_start();
        if (isset($_POST['submit_register'])){
                   if ($_POST['prenom'] != '' AND $_POST['nom'] != '' AND $_POST['password'] != '' AND $_POST['password2'] != '') {
