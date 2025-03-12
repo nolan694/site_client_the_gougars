@@ -206,7 +206,7 @@ $classes = $classesQuery->fetchAll(PDO::FETCH_ASSOC);
     </header>
 
     <main class="container">
-        <a href="admin.html" class="back-button">
+        <a href="admin.php" class="back-button">
             <i class="fas fa-arrow-left"></i>
             Retour au tableau de bord
         </a>
