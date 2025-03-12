@@ -48,10 +48,13 @@ if (isset($_POST['submit_register'])) {
     $rec = $connexion->prepare("UPDATE eleves SET points = points + ? WHERE id = ?");
     $rec->execute(array($score, $eleve['id']));
 
+
+    $popupMessage = ''; // Variable pour stocker le message de la pop-up
+
     if ($rec->rowCount() == 1) {
-        //echo "Points mis à jour avec succès pour l'élève ID: " . $eleve['id'] . "<br>";
+            $popupMessage = "appel réussi !"; // Message de succès
     } else {
-        //echo "Erreur lors de la mise à jour des points pour l'élève ID: " . $eleve['id'] . "<br>";
+        $popupMessage = "Erreur lors de l'appel !"; // Message d'erreur
     }
 
     }
@@ -115,6 +118,9 @@ if (isset($_POST['submit_register'])) {
                 }
             });
         });
+        <?php if (!empty($popupMessage)): ?>
+            alert("<?= $popupMessage ?>");
+        <?php endif; ?>
     </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
    $connexion = new PDO('mysql:host=localhost;dbname=client_cougars', 'root', '');
-
+   session_start();
    // Vérification de la soumission du formulaire
    if (isset($_POST['valider'])) {
        if ($_POST['email'] != '' AND $_POST['password'] != '') {
@@ -28,7 +28,10 @@
                } elseif ($role == 'prof') {
                    header("Location: Menu.php");
                } elseif ($role == 'eleve') {
-                   header("Location: Eleve.php");
+                        $_SESSION['id'] = $utilisateur['id'];
+                        $_SESSION['nom'] = $utilisateur['nom'];
+                        $_SESSION['prenom'] = $utilisateur['prenom'];
+                        header("Location: Menu.php");
                } else {
                    $erreur = "Rôle non défini.";
                }
@@ -40,8 +43,7 @@
            $erreur = "Veuillez remplir tous les champs.";
        }
    }
-       session_start();
-       if (isset($_POST['submit_register'])){
+          if (isset($_POST['submit_register'])){
                   if ($_POST['prenom'] != '' AND $_POST['nom'] != '' AND $_POST['password'] != '' AND $_POST['password2'] != '') {
                         if ($_POST['password'] == $_POST['password2']) {
                                 $prenom = $_POST['prenom'];
