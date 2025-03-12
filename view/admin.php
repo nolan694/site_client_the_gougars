@@ -168,7 +168,7 @@
 </head>
 <body>
     
-        <div class="menu-card" onclick="location.href='historique-points.html'">
+        <div class="menu-card" onclick="location.href='historique-points.php'">
             <i class="fas fa-history"></i>
             <h2>Historique des Points</h2>
             <p>Consulter l'historique des attributions</p>
