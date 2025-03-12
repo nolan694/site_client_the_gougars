@@ -159,6 +159,11 @@
             <h2>Groupes</h2>
             <p>Gestion et suivi des groupes</p>
         </div>
+        <div class="menu-card" onclick="location.href='fiche_appel.php'">
+        <i class="fas fa-layer-group"></i>
+            <h2>Appel</h2>
+            <p>Fiche d'appel de la classe</p>
+    </div>
     </main>
 </body>
 </html>
