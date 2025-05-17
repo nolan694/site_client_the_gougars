@@ -1,5 +1,5 @@
 
-<style>
+    <style>
         :root {
             --primary-color: #3B4371;
             --secondary-color: #F3F4F6;
@@ -201,7 +201,6 @@ $classes = $classesQuery->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <header class="header">
-        <h1>Transport Score</h1>
         <span class="admin-badge">Administration</span>
     </header>
 
@@ -214,48 +213,58 @@ $classes = $classesQuery->fetchAll(PDO::FETCH_ASSOC);
         <h2 style="margin-bottom: 2rem; color: var(--primary-color);">Historique des Points</h2>
 
         <?php foreach ($classes as $classe): ?>
-            <h2>Classe : <?= htmlspecialchars($classe['nom_classe']) ?></h2>
-            <div class="table-container">
-                <table>
-                    <thead>
+    <h2>Classe : <?= htmlspecialchars($classe['nom_classe']) ?></h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Cible</th>
+                    <th>Points</th>
+                    <th>Motif</th>
+                    <th>Attribué par</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Récupérer les élèves de cette classe avec leur prénom et nom
+                $elevesQuery = $connexion->prepare("
+                    SELECT eleves.id, utilisateurs.prenom, utilisateurs.nom 
+                    FROM eleves 
+                    JOIN utilisateurs ON eleves.utilisateur_id = utilisateurs.id 
+                    WHERE eleves.classe_id = ?
+                ");
+                $elevesQuery->execute([$classe['id']]);
+                $eleves = $elevesQuery->fetchAll(PDO::FETCH_ASSOC);
+
+                // Vérifier s'il y a des élèves à afficher
+                if (count($eleves) > 0):
+                    foreach ($eleves as $eleve): ?>
                         <tr>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Nom</th>
-                            <th>Points</th>
+                            <td>12/12/2024</td> <!-- Exemple de date -->
+                            <td>Élève</td>
+                            <td><?= htmlspecialchars($eleve['prenom']) . ' ' . htmlspecialchars($eleve['nom']) ?></td>
+                            <td>+10</td> <!-- Exemple de points -->
+                            <td>Participation active</td> <!-- Exemple de motif -->
+                            <td>M. Martin</td> <!-- Exemple d'attribution -->
+                            <td><span class="status-badge success">Validé</span></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        // Récupérer les élèves de cette classe
-                        $elevesQuery = $connexion->prepare("SELECT * FROM eleves WHERE classe_id = ?");
-                        $elevesQuery->execute([$classe['id']]);
-                        $eleves = $elevesQuery->fetchAll(PDO::FETCH_ASSOC);
+                    <?php endforeach;
+                else: ?>
+                    <tr>
+                        <td colspan="7" style="text-align: center;">Aucun élève trouvé dans cette classe.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+<?php endforeach; ?>
 
-
-                        $utilisateursQuery = $connexion->prepare(
-                            "SELECT utilisateurs.prenom, utilisateurs.nom, utilisateurs.date_inscription ,eleves.points, utilisateurs.id
-                            FROM eleves
-                            JOIN utilisateurs ON eleves.utilisateur_id = utilisateurs.id
-                            WHERE eleves.classe_id = ?"
-                        );
-                        $utilisateursQuery->execute([$classe['id']]);
-                        $utilisateurs = $utilisateursQuery->fetchAll(PDO::FETCH_ASSOC);
-                        
-
-                        // Afficher les élèves
-                        foreach ($utilisateurs as $utilisateur): ?>
-                            <tr>
-                                <td><?= date('d/m/Y', strtotime($utilisateur['date_inscription'])) ?></td>
-                                <td>Élève</td>
-                                <td><?= htmlspecialchars($utilisateur['prenom']) . ' ' . htmlspecialchars($utilisateur['nom']) ?></td>
-                                <td><?= htmlspecialchars($utilisateur['points']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
-        <?php endforeach; ?>
     </main>
 
     <script>

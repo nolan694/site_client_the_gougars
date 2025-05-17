@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transport Score - Administration</title>
+    <title> - Administration</title>
     <style>
         :root {
             
@@ -75,6 +75,8 @@
             transition: all 0.2s ease;
             border: 1px solid rgba(0,0,0,0.05);
             cursor: pointer;
+            margin-top: 100px;
+            z-index: 10px;
         }
 
         .menu-card:hover {
@@ -159,21 +161,23 @@
                 border-color: rgba(129, 140, 248, 0.2);
             }
 
-            .menu-card p {
-                color: #9CA3AF;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    
-        <div class="menu-card" onclick="location.href='historique-points.php'">
-            <i class="fas fa-history"></i>
-            <h2>Historique des Points</h2>
-            <p>Consulter l'historique des attributions</p>
-        </div>
-
-    </main>
-</body>
-</html>
+                        .menu-card p {
+                            color: #9CA3AF;
+                        }
+                    }
+                </style>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            </head>
+            <body>
+                <header class="header">
+                    <span class="admin-badge">Administration</span>
+                </header>
+                <main>
+                    <div class="menu-card" onclick="location.href='historique-points.php'">
+                        <i class="fas fa-history"></i>
+                        <h2>Historique des Points</h2>
+                        <p>Consulter l'historique des attributions</p>
+                    </div>
+                </main>
+            </body>
+            </html>

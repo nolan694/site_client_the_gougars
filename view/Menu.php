@@ -133,24 +133,33 @@
 <body>
     
     <header class="header">
-        <span class="admin-badge">Administration</span>
+        <h1>Transport Score</h1>
     </header>
 
     <main class="menu-container">
-        
+        <div class="menu-card" onclick="location.href='points.php'">
+            <i class="fas fa-chart-line"></i>
+            <h2>Mes Points</h2>
+            <p>Suivi des points et historique des déplacements</p>
+        </div>
 
-        <div class="menu-card" onclick="location.href='classement_prof.php'">
+        <div class="menu-card" onclick="location.href='classement.php'">
             <i class="fas fa-trophy"></i>
             <h2>Classement</h2>
             <p>Classement global</p>
         </div>
 
-        <div class="menu-card" onclick="location.href='historique-points_prof.php'">
+        <div class="menu-card" onclick="location.href='classes.php'">
             <i class="fas fa-users"></i>
-            <h2>Points</h2>
-            <p>Historique de chaque classe</p>
+            <h2>Classes</h2>
+            <p>Vue détaillée des classes</p>
         </div>
 
+        <div class="menu-card" onclick="location.href='groupes.php'">
+            <i class="fas fa-layer-group"></i>
+            <h2>Groupes</h2>
+            <p>Gestion et suivi des groupes</p>
+        </div>
         <div class="menu-card" onclick="location.href='fiche_appel.php'">
         <i class="fas fa-layer-group"></i>
             <h2>Appel</h2>

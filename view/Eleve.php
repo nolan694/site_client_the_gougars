@@ -137,16 +137,23 @@
 
     <main class="menu-container">
         <div class="menu-card" onclick="location.href='classement_eleve.php'">
+        <div class="menu-card" onclick="location.href='classement.php'">
             <i class="fas fa-trophy"></i>
             <h2>Classement</h2>
             <p>Classement global et par classe</p>
         </div>
 
         <div class="menu-card" onclick="location.href='historique_eleve.php'">
+        <div class="menu-card" onclick="location.href='historique-elv.php'">
             <i class="fas fa-group"></i>
             <h2>Historique points</h2>
             <p>historique de chaque classes</p>
         </div>
+        <div class="menu-card" onclick="location.href='points.php'">
+        <i class="fas fa-layer-users"></i>
+            <h2>Mes points</h2>
+            <p>Points de l'éleve</p>
+    </div>
     </main>
 </body>
 </html>
